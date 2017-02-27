@@ -1,0 +1,20 @@
+Folders 
+- doc : User manual pdf
+- Evaluant.Calculator : Library for evaluating expression inside the variables
+- InfluenceDiagram : 
+	-- bin 
+	-- ComponentControl : Shape and Component control 
+	-- Data : Contains data structure and behaviour for each component
+	-- DiagramDesigner (Canvas) : Manage the behaviour of Connector and events inside the canvas (and toolbox too) 
+	-- Lib : Compiled library
+	-- obj 
+	-- Properties : not important
+	-- Resources : Icons and images
+	-- Utility : Helper classes
+	app.xaml		-> App height, width, colors 
+	Command.cs		-> List of commands
+	MainWindow.xaml		-> layout for main
+	MainWindow.xaml.cs	-> Main program
+- SetupInfluenceDiagram : Project to create REvan installer
+- ShaderEffectLibrary : Library Color Control
+

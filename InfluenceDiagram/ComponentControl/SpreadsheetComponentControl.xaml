@@ -1,0 +1,364 @@
+﻿<UserControl x:Class="InfluenceDiagram.ComponentControl.SpreadsheetComponentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:l="clr-namespace:InfluenceDiagram"
+             xmlns:cc="clr-namespace:InfluenceDiagram.ComponentControl"
+             xmlns:dd="clr-namespace:DiagramDesigner"
+             xmlns:sel="clr-namespace:ShaderEffectLibrary;assembly=ShaderEffectLibrary"
+             mc:Ignorable="d"
+             x:Name="userControl"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             >    
+    <UserControl.Resources>
+        <Color x:Key="BorderColor">#330066</Color>
+        <Color x:Key="BackgroundColor">#663399</Color>
+        <Color x:Key="ForegroundColor">#ffcc00</Color>
+        <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"></SolidColorBrush>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"></SolidColorBrush>
+        <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"></SolidColorBrush>        
+        <!-- skinning -->
+        <Style TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <SolidColorBrush Color="{Binding Path=data.BorderColor, Source={x:Reference userControl}}"></SolidColorBrush>
+                </Setter.Value></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+        </Style>
+        <!-- grid column header style -->
+        <Style x:Key="HeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button BorderThickness="1 2 1 1" Foreground="{x:Null}" Margin="0" Padding="0"
+                                Height="25" MouseRightButtonDown="Button_MouseRightButtonDown"
+                                    MouseDoubleClick="ColumnHeader_MouseDoubleClick"
+                                    PreviewMouseDown="ColumnHeader_PreviewMouseDown">
+                                <Button.Style>                                    
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="BorderBrush">
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="{Binding Path=data.BorderColor, Source={x:Reference userControl}}"></SolidColorBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="{Binding Path=data.BackgroundColor, Source={x:Reference userControl}}"></SolidColorBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Value="True" Property="IsMouseOver">
+                                                <Setter Value="LightGray" Property="Background"></Setter>
+                                            </Trigger>
+                                            <Trigger Value="True" Property="IsFocused">
+                                                <Setter Value="LightBlue" Property="Background"></Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Button.CommandBindings>
+                                    <CommandBinding Command="l:Command.SpreadsheetAddColumn"
+                                                    Executed="ColumnInsert_Executed"></CommandBinding>
+                                    <CommandBinding Command="ApplicationCommands.Delete" 
+                                                    CanExecute="ColumnDelete_CanExecute" 
+                                                    Executed="ColumnDelete_Executed"></CommandBinding>
+                                    <CommandBinding Command="l:Command.Rename"
+                                                    Executed="ColumnRename_Executed"></CommandBinding>
+                                    <CommandBinding Command="l:Command.SpreadsheetColumnExpression"
+                                                    Executed="ColumnExpression_Executed"></CommandBinding>
+                                </Button.CommandBindings>
+                                <Button.ContextMenu>
+                                    <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                        <MenuItem Header="Insert Column" Command="{x:Static l:Command.SpreadsheetAddColumn}"></MenuItem>
+                                        <MenuItem Header="Delete" Command="{x:Static ApplicationCommands.Delete}"></MenuItem>
+                                        <MenuItem Header="Rename" Command="{x:Static l:Command.Rename}"></MenuItem>
+                                        <MenuItem Header="Expression" Command="{x:Static l:Command.SpreadsheetColumnExpression}"></MenuItem>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                <Grid>
+                                    <cc:SpreadsheetHeaderExpressionText 
+                                        HorizontalAlignment="Stretch"
+                                        Background="White" 
+                                        Visibility="Hidden"
+                                        GotFocus="ColumnExpression_GotFocus"
+                                        LostFocus="ColumnExpression_LostFocus" 
+                                        Loaded="ColumnExpression_Loaded">                                        
+                                    </cc:SpreadsheetHeaderExpressionText>
+                                    <cc:SpreadsheetHeaderText MinWidth="25" Height="25" Text="{Binding Path=.}" 
+                                             TextAlignment="Center" 
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center" 
+                                             IsReadOnly="True"
+                                             IsHitTestVisible="False"
+                                             Loaded="ColumnText_Loaded"
+                                             LostFocus="ColumnText_LostFocus"
+                                             KeyDown="TextBox_KeyDown">
+                                        <cc:SpreadsheetHeaderText.Style>
+                                            <Style TargetType="{x:Type TextBox}">
+                                                <Style.Triggers>
+                                                    <Trigger Value="True" Property="IsReadOnly">
+                                                        <Setter Value="{x:Null}" Property="BorderBrush"></Setter>
+                                                        <Setter Value="{x:Null}" Property="Background"></Setter>
+                                                        <Setter Property="Foreground">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="{Binding Path=data.FontColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Value="False" Property="Focusable"></Setter>
+                                                    </Trigger>
+                                                    <Trigger Value="False" Property="IsReadOnly">
+                                                        <Setter Value="{x:Null}" Property="BorderBrush"></Setter>
+                                                        <Setter Value="White" Property="Background"></Setter>
+                                                        <Setter Value="True" Property="Focusable"></Setter>
+                                                        <Setter Value="Black" Property="Foreground"></Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </cc:SpreadsheetHeaderText.Style>
+                                    </cc:SpreadsheetHeaderText>
+                                </Grid>
+                            </Button>
+                            <Thumb x:Name="PART_RightHeaderGripper" Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Width="1" BorderThickness="1"
+                                        Cursor="SizeWE">
+                                <Thumb.BorderBrush>
+                                    <SolidColorBrush Color="{Binding Path=data.BorderColor, Source={x:Reference userControl}}"></SolidColorBrush>
+                                </Thumb.BorderBrush>
+                            </Thumb>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- grid row header style -->
+        <Style x:Key="RowHeaderStyle" TargetType="{x:Type DataGridRowHeader}">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridRowHeader}">    
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Margin="0" Padding="0"
+                                    HorizontalAlignment="Stretch"                                    
+                                    BorderThickness="2 1 1 1"
+                                    MouseDoubleClick="RowHeader_MouseDoubleClick"
+                                    PreviewMouseDown="RowHeader_PreviewMouseDown">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="BorderBrush">
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="{Binding Path=data.BorderColor, Source={x:Reference userControl}}"></SolidColorBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background">
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="{Binding Path=data.BackgroundColor, Source={x:Reference userControl}}"></SolidColorBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Value="True" Property="IsMouseOver">
+                                            <Setter Value="LightGray" Property="Background"></Setter>
+                                        </Trigger>
+                                        <Trigger Value="True" Property="IsFocused">
+                                        <Setter Value="LightBlue" Property="Background"></Setter>
+                                        </Trigger>
+                                        <DataTrigger Value="True" Binding="{Binding Path=ContextMenu.IsOpen, RelativeSource={RelativeSource Self}}">
+                                            <Setter Value="LightBlue" Property="Background"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Button.CommandBindings>
+                                <CommandBinding Command="l:Command.SpreadsheetAddRow"
+                                                Executed="RowInsert_Executed"></CommandBinding>
+                                <CommandBinding Command="ApplicationCommands.Delete" 
+                                                CanExecute="RowDelete_CanExecute"
+                                                Executed="RowDelete_Executed"></CommandBinding>
+                                <CommandBinding Command="l:Command.Rename"
+                                                    Executed="RowRename_Executed"></CommandBinding>
+                                <CommandBinding Command="l:Command.SpreadsheetRowExpression"
+                                                    Executed="RowExpression_Executed"></CommandBinding>
+                            </Button.CommandBindings>
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Insert Row" Command="{x:Static l:Command.SpreadsheetAddRow}" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"></MenuItem>
+                                    <MenuItem Header="Delete" Command="{x:Static ApplicationCommands.Delete}" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"></MenuItem>
+                                    <MenuItem Header="Rename" Command="{x:Static l:Command.Rename}" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"></MenuItem>
+                                    <MenuItem Header="Expression" Command="{x:Static l:Command.SpreadsheetRowExpression}" CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource AncestorType=ContextMenu}}"></MenuItem>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                                <Button.Content>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <cc:SpreadsheetHeaderExpressionText 
+                                                    HorizontalAlignment="Stretch"
+                                                    Background="White" 
+                                                    Visibility="Hidden"
+                                                    GotFocus="RowExpression_GotFocus" 
+                                                    LostFocus="RowExpression_LostFocus" 
+                                                    Loaded="RowExpression_Loaded">
+                                        </cc:SpreadsheetHeaderExpressionText>
+                                        <cc:SpreadsheetHeaderText MinWidth="25" Height="25" 
+                                                         Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type DataGridRow}}, Path=Header}" 
+                                                         TextAlignment="Center" 
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalAlignment="Center" 
+                                                         IsReadOnly="True"
+                                                         IsHitTestVisible="False"
+                                                         Loaded="RowText_Loaded"
+                                                         LostFocus="RowText_LostFocus"
+                                                         KeyDown="TextBox_KeyDown">
+                                            <cc:SpreadsheetHeaderText.Style>
+                                                <Style TargetType="{x:Type TextBox}">
+                                                    <Style.Triggers>
+                                                        <Trigger Value="True" Property="IsReadOnly">
+                                                            <Setter Value="{x:Null}" Property="BorderBrush"></Setter>
+                                                            <Setter Value="{x:Null}" Property="Background"></Setter>
+                                                                <Setter Property="Foreground">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="{Binding Path=data.FontColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            <Setter Value="False" Property="Focusable"></Setter>
+                                                        </Trigger>
+                                                        <Trigger Value="False" Property="IsReadOnly">
+                                                            <Setter Value="{x:Null}" Property="BorderBrush"></Setter>
+                                                            <Setter Value="White" Property="Background"></Setter>
+                                                            <Setter Value="True" Property="Focusable"></Setter>
+                                                            <Setter Value="Black" Property="Foreground"></Setter>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </cc:SpreadsheetHeaderText.Style>
+                                        </cc:SpreadsheetHeaderText>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <cc:LabelTextBox x:Name="textLabel"
+                            HorizontalAlignment="Left"
+                            BorderThickness="2" 
+                            LostFocus="textLabel_LostFocus">
+            <cc:LabelTextBox.BorderBrush>
+                <SolidColorBrush Color="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+            </cc:LabelTextBox.BorderBrush>
+            <cc:LabelTextBox.Foreground>
+                <SolidColorBrush Color="{Binding Path=data.FontColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+            </cc:LabelTextBox.Foreground>
+            <cc:LabelTextBox.Background>
+                <SolidColorBrush Color="{Binding Path=data.BackgroundColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+            </cc:LabelTextBox.Background>
+        </cc:LabelTextBox>
+        <Grid HorizontalAlignment="Left">
+            <Border BorderThickness="2" Margin="-2">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type dd:DesignerItem}}, Path=IsSelected}" Value="True">
+                                <Setter Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <DockPanel>
+                <!-- left button -->
+                <!--StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+                    <Border Width="25" Height="25"></Border>
+                </-->
+                <!-- right button (add column) -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Vertical">
+                    <Button Height="27" Name="btnAddColumn" Margin="0" Padding="0"
+                        Command="l:Command.SpreadsheetAddColumn" Background="{x:Null}" BorderThickness="0">
+                        <Button.Content>
+                            <Image Source="../Resources/Images/spreadsheet-add-column-bw.png">
+                                <Image.Effect>
+                                    <sel:EffectColoringImage ColorFilter="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></sel:EffectColoringImage>
+                                </Image.Effect>
+                            </Image>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <!-- bottom button (add row) -->
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                    <Button Width="27" Name="btnAddRow" Margin="0" Padding="0"
+                        Command="l:Command.SpreadsheetAddRow" Background="{x:Null}" BorderThickness="0">
+                        <Button.Content>
+                            <Image Source="../Resources/Images/spreadsheet-add-row-bw.png">
+                                <Image.Effect>
+                                    <sel:EffectColoringImage ColorFilter="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></sel:EffectColoringImage>
+                                </Image.Effect>
+                            </Image>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+                <!-- the grid -->
+                <DataGrid Name="grid" Margin="0" Padding="0" 
+                        BorderThickness="1 1 1 1"
+                        AutoGenerateColumns="False" 
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserSortColumns="False"
+                        CanUserReorderColumns="False"     
+                        CanUserResizeColumns="True"
+                        CanUserResizeRows="False"                          
+                        SelectionUnit="Cell"
+                        RowHeaderStyle="{StaticResource RowHeaderStyle}"
+                        ItemsSource="{Binding}"
+                        LoadingRow="grid_LoadingRow"
+                          MouseUp="grid_MouseUp"
+                        >
+                    <DataGrid.BorderBrush>
+                        <SolidColorBrush Color="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+                    </DataGrid.BorderBrush>
+                    <DataGrid.HorizontalGridLinesBrush>
+                        <SolidColorBrush Color="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>                        
+                    </DataGrid.HorizontalGridLinesBrush>
+                    <DataGrid.VerticalGridLinesBrush>
+                        <SolidColorBrush Color="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+                    </DataGrid.VerticalGridLinesBrush>
+                    <DataGrid.CommandBindings>
+                        <CommandBinding Command="ApplicationCommands.Delete" Executed="gridDelete_Executed"></CommandBinding>
+                    </DataGrid.CommandBindings>
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Path=data.BorderColor, Source={x:Reference userControl}}"></SolidColorBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="BorderThickness" Value="1"></Setter>
+                            <Style.Triggers>
+                                <!--Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background" Value="White"></Setter>
+                                </-->
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <cc:SpreadsheetColumn Binding="{Binding [0]}" Header="A" HeaderStyle="{StaticResource HeaderStyle}"></cc:SpreadsheetColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>

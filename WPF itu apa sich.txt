@@ -1,0 +1,37 @@
+-- Intro --
+WPF itu intinya ada .xaml dan .cs
+diibaratkan android, .xaml ~ .xml , .cs ~ .java
+.xaml untuk tampilan dan .cs untuk programnya
+
+--Style & Triggers --
+Jadi .xaml ada juga DataBinding, .xaml bisa make
+variable yang didefine di .cs, tapi biar datanya
+update secara dynamic harus implement listener gitu
+
+Ada cara lain yaitu pake Trigger, mirip if else gitu,
+klo variable .cs apa, stylenya A, kalo gak defaultnya stylenya B.
+Jenis Trigger juga ada macem2, ada DataTrigger, EventTrigger
+
+-- Event vs Command --
+Contohnya aja Button tuh kalo diclick bisa ngeluarin Event,
+tapi bisa diset juga supaya ngeluarinnya Command. Bedanya apa sich??
+
+Seinget gw gan itu Event tuh tertentu di 1 button doang,
+jadi kalo buttonnya banyak ya Eventnya juga banyak.
+
+Tapi nih tapi ya gan, misal di Windows kan save kan ada 2 pilihan :
+1. Ctrl + S
+2. pencet button disket
+
+Nah itu kan behaviournya sama tuh bakal nge-save juga, nah daripada
+menghandle 2 event kan mending ngejalanin 1 command aja,
+itu gunanya Command.
+
+Cara ngehandle Command juga beda gan gk kyk Event. Silahkan baca2
+lagi ya ane juga masi krg paham
+
+-- Liat juga --
+
+MVVM guideline
+
+Tutorial liat youtube, dokumentasi liat di MSDN

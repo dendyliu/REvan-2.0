@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="InfluenceDiagram.ComponentControl.ShapeComponentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dd="clr-namespace:DiagramDesigner"
+             xmlns:cc="clr-namespace:InfluenceDiagram.ComponentControl"
+             mc:Ignorable="d"
+             x:Name="userControl"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <UserControl.Resources>
+        <Color x:Key="NormalColor">#03359a</Color>
+        <SolidColorBrush x:Key="NormalBrush" Color="{StaticResource NormalColor}"></SolidColorBrush>
+        <SolidColorBrush x:Key="FocusBrush" Color="Red"></SolidColorBrush>
+    </UserControl.Resources>
+    <Grid Name="grid" MinWidth="25" MinHeight="25" HorizontalAlignment="Center">
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Value="True" Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type dd:DesignerItem}}, Path=IsSelected}">
+                        <Setter Property="Background" Value="Yellow"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+        <cc:ComponentShapeContainer 
+                Shape="{Binding data.Shape}" 
+                BorderThickness="2" 
+                BorderColor="{Binding data.BorderColor}" 
+                BackgroundColor="{Binding data.BackgroundColor}"
+                ContainedElement="{Binding ElementName=textBox}">
+        </cc:ComponentShapeContainer>
+        <!--Polygon x:Name="border" Stretch="None" IsHitTestVisible="False"
+                 StrokeThickness="2">
+            <Polygon.Style>
+                <Style TargetType="Polygon">
+                    <Setter  Property="Stroke">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding Path=data.BorderColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Fill">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding Path=data.BackgroundColor, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></SolidColorBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Value="True" Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type dd:DesignerItem}}, Path=IsSelected}">
+                            <Setter  Property="Stroke" Value="{StaticResource FocusBrush}"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Polygon.Style>
+        </-->
+        <cc:ShapeComponentText x:Name="textBox"
+                              GotFocus="textBox_GotFocus" 
+                              LostFocus="textBox_LostFocus"
+                               Margin="10 0">
+            <cc:ShapeComponentText.Style>
+                <Style TargetType="{x:Type cc:ShapeComponentText}">
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{Binding data.FontColor}"></SolidColorBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </cc:ShapeComponentText.Style>
+        </cc:ShapeComponentText>
+    </Grid>
+</UserControl>

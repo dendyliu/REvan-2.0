@@ -1,0 +1,428 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dd="clr-namespace:DiagramDesigner"
+        xmlns:l="clr-namespace:InfluenceDiagram"
+        xmlns:cc="clr-namespace:InfluenceDiagram.ComponentControl"
+        xmlns:ut="clr-namespace:InfluenceDiagram.Utility"
+        xmlns:id="clr-namespace:InfluenceDiagram.Data"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="InfluenceDiagram.MainWindow"
+        Title="REvan Influence Diagram" Height="700" Width="1200"
+        Icon="app-icon.ico"
+        Activated="Window_Activated"
+        Closing="Window_Closing"
+        Loaded="Window_Loaded">
+    <Window.InputBindings>
+        <KeyBinding Command="NavigationCommands.IncreaseZoom" Gesture="CTRL+OemPlus"/>
+        <KeyBinding Command="NavigationCommands.DecreaseZoom" Gesture="CTRL+OemMinus"/>
+        <KeyBinding Command="l:Command.ResetZoom" Gesture="CTRL+0"/>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save" Executed="Save_Executed"/>
+        <CommandBinding Command="ApplicationCommands.SaveAs" Executed="SaveAs_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="Open_Executed"/>
+        <CommandBinding Command="ApplicationCommands.New" Executed="New_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="Help_Executed"/>
+
+        <CommandBinding Command="NavigationCommands.IncreaseZoom" Executed="IncreaseZoom_Executed"/>
+        <CommandBinding Command="NavigationCommands.DecreaseZoom" Executed="DecreaseZoom_Executed"/>
+        <CommandBinding Command="l:Command.ResetZoom" Executed="ResetZoom_Executed"/>
+
+        <CommandBinding Command="ApplicationCommands.Undo" Executed="Undo_Executed" CanExecute="Undo_CanExecute"/>
+        <CommandBinding Command="ApplicationCommands.Redo" Executed="Redo_Executed" CanExecute="Redo_CanExecute"/>
+        <CommandBinding Command="ApplicationCommands.Delete" Executed="Delete_Executed" CanExecute="Delete_CanExecute"/>
+        <CommandBinding Command="ApplicationCommands.Cut" Executed="Cut_Executed" CanExecute="Cut_CanExecute"/>
+        <CommandBinding Command="ApplicationCommands.Copy" Executed="Copy_Executed" CanExecute="Copy_CanExecute"/>
+        <CommandBinding Command="ApplicationCommands.Paste" Executed="Paste_Executed" CanExecute="Paste_CanExecute"/>
+        <CommandBinding Command="l:Command.IncludeExternal" Executed="IncludeExternal_Executed"/>
+        <CommandBinding Command="l:Command.FunctionList" Executed="FunctionList_Executed"/>
+        <CommandBinding Command="l:Command.OpenDatatools" Executed="OpenDatatools_Executed"/>
+        <CommandBinding Command="l:Command.OpenGoalseek" Executed="OpenGoalseek_Executed"/>
+        <CommandBinding Command="l:Command.OpenDatatable" Executed="OpenDatatable_Executed"/>
+        <CommandBinding Command="l:Command.DeleteDatatable" Executed="DeleteDatatable_Executed"/>
+        <CommandBinding Command="l:Command.ExportExcel" Executed="ExportExcel_Executed"/>
+
+        <CommandBinding Command="l:Command.DropExpression" Executed="DropExpression_Executed"/>
+        <CommandBinding Command="l:Command.DropSpreadsheet" Executed="DropSpreadsheet_Executed"/>
+        <CommandBinding Command="l:Command.DropMacro" Executed="DropMacro_Executed"/>
+        <CommandBinding Command="l:Command.DropShape" Executed="DropShape_Executed"/>
+        <CommandBinding Command="l:Command.DropIf" Executed="DropIf_Executed"/>
+        <CommandBinding Command="l:Command.DropLoop" Executed="DropLoop_Executed"/>
+
+        <CommandBinding Command="l:Command.SpreadsheetAddColumn" Executed="SpreadsheetAddColumn_Executed"/>
+        <CommandBinding Command="l:Command.SpreadsheetAddRow" Executed="SpreadsheetAddRow_Executed"/>
+        <CommandBinding Command="l:Command.SpreadsheetDeleteColumn" Executed="SpreadsheetDeleteColumn_Executed"/>
+        <CommandBinding Command="l:Command.SpreadsheetDeleteRow" Executed="SpreadsheetDeleteRow_Executed"/>
+
+        <CommandBinding Command="l:Command.MacroChangeName" Executed="MacroChangeName_Executed"/>
+        <CommandBinding Command="l:Command.LoopChangeName" Executed="LoopChangeName_Executed"/>
+        <CommandBinding Command="l:Command.MacroAddParam" Executed="MacroAddParam_Executed"/>
+        <CommandBinding Command="l:Command.MacroDeleteParam" Executed="MacroDeleteParam_Executed"/>
+        <CommandBinding Command="l:Command.LoopAddParam" Executed="LoopAddParam_Executed"/>
+        <CommandBinding Command="l:Command.LoopDeleteParam" Executed="LoopDeleteParam_Executed"/>
+
+        <CommandBinding Command="l:Command.ShapeAddConnection" Executed="ShapeAddConnection_Executed"/>
+
+        <CommandBinding Command="l:Command.ActivateComponent" Executed="ActivateComponent_Executed"/>
+        <CommandBinding Command="l:Command.DeactivateComponent" Executed="DeactivateComponent_Executed"/>
+        <CommandBinding Command="l:Command.UnselectComponent" Executed="UnselectComponent_Executed"/>
+        <CommandBinding Command="l:Command.ClickComponent" Executed="ClickComponent_Executed"/>
+        <CommandBinding Command="l:Command.AddDependence" Executed="AddDependence_Executed"/>
+        <CommandBinding Command="l:Command.RemoveDependence" Executed="RemoveDependence_Executed"/>
+    </Window.CommandBindings>
+    <Grid Background="{StaticResource WindowBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel x:Name="topPanel" Grid.Row="0" Grid.ColumnSpan="3">
+            <!--Toolbar-->
+            <ToolBar DockPanel.Dock="Left" ToolBarTray.IsLocked="True" Loaded="ToolBar_Loaded">
+                <ToolBar.Resources>
+                    <Style TargetType="{x:Type ToolBar}">
+                        <Setter Property="Background" Value="{StaticResource WindowBackgroundBrush}"/>
+                    </Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="{StaticResource ElementsBackgroundBrush}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="{x:Null}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Background" Value="{StaticResource ElementsBackgroundBrush}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="{x:Null}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Width" Value="80"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Stretch" Value="UniformToFill"/>
+                    </Style>
+                </ToolBar.Resources>
+                <Button Width="80" Command="ApplicationCommands.New">
+                    <StackPanel>
+                        <Image Source="Resources/Images/01-new.png"/>
+                        <TextBlock DockPanel.Dock="Bottom" Text="New" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Open">
+                    <StackPanel>
+                        <Image Source="Resources/Images/02-open.png"/>
+                        <TextBlock Text="Open" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Save">
+                    <StackPanel>
+                        <Image Source="Resources/Images/03-save.png"/>
+                        <TextBlock Text="Save" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.SaveAs">
+                    <StackPanel>
+                        <Image Source="Resources/Images/04-save-as.png"/>
+                        <TextBlock Text="Save As" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Undo">
+                    <StackPanel>
+                        <Image Source="Resources/Images/08-undo.png"/>
+                        <TextBlock Text="Undo" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Redo">
+                    <StackPanel>
+                        <Image Source="Resources/Images/09-redo.png"/>
+                        <TextBlock Text="Redo" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Cut">
+                    <StackPanel>
+                        <Image Source="Resources/Images/05-cut.png"/>
+                        <TextBlock Text="Cut" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Copy">
+                    <StackPanel>
+                        <Image Source="Resources/Images/06-copy.png"/>
+                        <TextBlock Text="Copy" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Paste">
+                    <StackPanel>
+                        <Image Source="Resources/Images/07-paste.png"/>
+                        <TextBlock Text="Paste" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="ApplicationCommands.Delete">
+                    <StackPanel>
+                        <Image Source="Resources/Images/11-delete.png"/>
+                        <TextBlock Text="Delete" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="l:Command.IncludeExternal">
+                    <StackPanel>
+                        <Image Source="Resources/Images/10-include.png"/>
+                        <TextBlock Text="Include" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="l:Command.FunctionList">
+                    <StackPanel>
+                        <Image Source="Resources/Images/function-list.png"/>
+                        <TextBlock Text="Function List" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Width="80" Command="l:Command.OpenDatatools" PreviewMouseDown="buttonDatatools_PreviewMouseDown">
+                    <Grid>
+                        <StackPanel>
+                            <Image Source="Resources/Images/data-tools.png"/>
+                            <TextBlock Text="Data Tools" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <Popup x:Name="popupDatatools" PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}"
+							Placement="Bottom" VerticalOffset="3" Width="120" HorizontalAlignment="Right" AllowsTransparency="True"
+							StaysOpen="False">
+                            <Border
+								x:Name="SubmenuBorder"
+								SnapsToDevicePixels="True"
+								Background="{StaticResource WindowBackgroundBrush}"
+								BorderBrush="{StaticResource SolidBorderBrush}"
+								BorderThickness="1" >
+                                <StackPanel>
+                                    <Button Command="l:Command.OpenGoalseek" BorderThickness="0" Margin="1">
+                                        <Label Foreground="White" Content="Goal Seek"/>
+                                    </Button>
+                                    <Button Command="l:Command.OpenDatatable" BorderThickness="0" Margin="1">
+                                        <Label Foreground="White" Content="Data Table"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </Button>
+
+            </ToolBar>
+            <Button DockPanel.Dock="Right"                 
+				Click="About_Click" Background="{StaticResource ElementsBackgroundBrush}" BorderBrush="{x:Null}" MaxWidth="140">
+                <Image Source="Resources/Images/logo-long-small.png" Margin="0 10 10 10" Stretch="UniformToFill" Height="40"/>
+            </Button>
+            <Grid/>
+        </DockPanel>
+
+        <!--Left Toolbox-->
+        <StackPanel x:Name="leftPanel" Grid.Row="1" Grid.Column="0" Margin="3" Background="{StaticResource WindowBackgroundBrush}">
+            <Label FontSize="11" Foreground="White" Content="Components"/>
+            <dd:Toolbox ItemSize="80,85" HorizontalAlignment="Center">
+                <dd:Toolbox.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="{StaticResource ElementsBackgroundBrush}"/>
+                        <Setter Property="Width" Value="80"/>
+                        <Setter Property="Height" Value="80"/>
+                    </Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Background" Value="{StaticResource ElementsBackgroundBrush}"/>
+                    </Style>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Width" Value="80"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Stretch" Value="UniformToFill"/>
+                    </Style>
+                </dd:Toolbox.Resources>
+                <dd:Toolbox.Background>
+                    <StaticResource ResourceKey="WindowBackgroundBrush"/>
+                </dd:Toolbox.Background>
+                <Button IsHitTestVisible="False" BorderThickness="0" Margin="0"
+					Command="l:Command.DropExpression" 
+					ToolTip="Variable">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="Resources/Images/sidebar-01-variable.png"/>
+                        <Label FontSize="10" HorizontalAlignment="Center" Content="Variable"/>
+                    </StackPanel>
+                </Button>
+                <Button IsHitTestVisible="False" BorderThickness="0"
+					Command="l:Command.DropSpreadsheet"
+					ToolTip="Spreadsheet">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="Resources/Images/sidebar-02-spreadsheet.png"/>
+                        <Label FontSize="10" HorizontalAlignment="Center" Content="Spreadsheet"/>
+                    </StackPanel>
+                </Button>
+                <Button IsHitTestVisible="False" BorderThickness="0"
+					Command="l:Command.DropMacro"
+					ToolTip="Macro">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="Resources/Images/sidebar-03-macro.png"/>
+                        <Label FontSize="10" HorizontalAlignment="Center" Content="Macro"/>
+                    </StackPanel>
+                </Button>
+                <Button IsHitTestVisible="False" BorderThickness="0"
+					Command="l:Command.DropShape" 
+					ToolTip="Mindmap">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="Resources/Images/sidebar-04-flowchart.png"/>
+                        <Label FontSize="10" HorizontalAlignment="Center" Content="Mindmap"/>
+                    </StackPanel>
+                </Button>
+                <Button IsHitTestVisible="False" BorderThickness="0"
+					Command="l:Command.DropIf" 
+					ToolTip="Conditional">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="Resources/Images/sidebar-05-condition.png"/>
+                        <Label FontSize="10" HorizontalAlignment="Center" Content="Conditional"/>
+                    </StackPanel>
+                </Button>
+                <Button IsHitTestVisible="False" BorderThickness="0"
+					Command="l:Command.DropLoop" 
+					ToolTip="Loop">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="Resources/Images/sidebar-06-loop.png"/>
+                        <Label FontSize="10" HorizontalAlignment="Center" Content="Loop"/>
+                    </StackPanel>
+                </Button>
+            </dd:Toolbox>
+        </StackPanel>
+
+        <GridSplitter Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="5" Background="{StaticResource WindowBorderBrush}"/>
+
+        <!-- Right Property Panel -->
+        <Grid Grid.Row="1" Grid.Column="2" Margin="5 0 0 0">
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Outline panel -->
+            <DockPanel x:Name="rightPanel" Grid.Row="0">
+                <DockPanel.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                </DockPanel.Resources>
+                <DockPanel.Background>
+                    <StaticResource ResourceKey="WindowBorderBrush"/>
+                </DockPanel.Background>
+                <Label DockPanel.Dock="Top" 
+					Background="{StaticResource WindowBackgroundBrush}" 
+					FontSize="11" 
+					HorizontalContentAlignment="Center"
+					Margin="0 3 0 0" Content="Outline"/>
+                <TreeView x:Name="outlineTreeView">
+                    <TreeView.Background>
+                        <StaticResource ResourceKey="ElementsBackgroundBrush"/>
+                    </TreeView.Background>
+                    <TreeViewItem x:Name="outlineTreeRoot" IsExpanded="True">
+                        <TreeViewItem.Resources>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                            </Style>
+                        </TreeViewItem.Resources>
+                        <TreeViewItem.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Content.data.autoLabel}"
+									MouseDown="OutlineItem_MouseDown"/>
+                            </DataTemplate>
+                        </TreeViewItem.ItemTemplate>
+                    </TreeViewItem>
+                </TreeView>
+            </DockPanel>
+
+            <GridSplitter Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="5" Background="{StaticResource WindowBorderBrush}"/>
+
+            <!-- Properties panel -->
+            <DockPanel Grid.Row="1" Margin="0 5 0 0">
+                <DockPanel.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                </DockPanel.Resources>
+                <DockPanel.Background>
+                    <StaticResource ResourceKey="WindowBorderBrush"/>
+                </DockPanel.Background>
+                <Label DockPanel.Dock="Top" Background="{StaticResource WindowBackgroundBrush}" FontSize="11" HorizontalContentAlignment="Center" Content="Properties"/>
+                <xctk:PropertyGrid Name="propertyGrid"
+					AutoGenerateProperties="False"                                   
+					ShowSortOptions="False" 
+					ShowSearchBox="False"
+					NameColumnWidth="100"
+					Foreground="White"
+					Background="{StaticResource ElementsBackgroundBrush}">
+                    <!--xctk:PropertyGrid.EditorDefinitions>
+                        <xctk:EditorTemplateDefinition TargetProperties="{x:Type id:ComponentShape}">
+                            <xctk:EditorTemplateDefinition.EditingTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Label Content="{Binding Value}"></Label>
+                                        <Button x:Name="btn"></Button>
+                                        <Popup x:Name="popup" IsOpen="True" PlacementTarget="{Binding ElementName=btn}" Placement="Bottom" Width="200" Height="50"></Popup>
+                                    </Grid>
+                                </DataTemplate>
+                            </xctk:EditorTemplateDefinition.EditingTemplate>
+                        </xctk:EditorTemplateDefinition>
+                    </-->
+                    <xctk:PropertyGrid.PropertyDefinitions>
+                        <xctk:PropertyDefinition Name="Shape"/>
+                    </xctk:PropertyGrid.PropertyDefinitions>
+                </xctk:PropertyGrid>
+            </DockPanel>
+        </Grid>
+
+        <!--Design Canvas-->
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+			MouseUp="ScrollViewer_MouseUp" 
+			MouseMove="ScrollViewer_MouseMove" 
+			PreviewMouseLeftButtonDown="ScrollViewer_PreviewMouseLeftButtonDown"
+			MouseRightButtonDown="ScrollViewer_MouseRightButtonDown"
+			PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+			IsManipulationEnabled="True"
+			ManipulationStarting="scrollViewer_ManipulationStarting"
+			ManipulationDelta="scrollViewer_ManipulationDelta">
+            <dd:DesignerCanvas x:Name="designerCanvas" Background="White">
+                <dd:DesignerCanvas.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="canvasScaleTransform"/>
+                    </TransformGroup>
+                </dd:DesignerCanvas.LayoutTransform>
+                <dd:DesignerCanvas.ContextMenu>
+                    <ContextMenu ut:ContextMenuTrackBehavior.TrackOpenLocation="True">
+                        <MenuItem Header="Paste" Command="{x:Static ApplicationCommands.Paste}">
+                            <MenuItem.Icon>
+                                <Image Source="DiagramDesigner/Resources/Images/Paste.png" Width="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="New Variable" Command="{x:Static l:Command.DropExpression}"
+							CommandParameter="{Binding (ut:ContextMenuTrackBehavior.OpenLocation), RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/>
+                        <MenuItem Header="New Spreadsheet" Command="{x:Static l:Command.DropSpreadsheet}"
+							CommandParameter="{Binding (ut:ContextMenuTrackBehavior.OpenLocation), RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/>
+                        <MenuItem Header="New Macro" Command="{x:Static l:Command.DropMacro}"
+							CommandParameter="{Binding (ut:ContextMenuTrackBehavior.OpenLocation), RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/>
+                        <MenuItem Header="New Mindmap" Command="{x:Static l:Command.DropShape}"
+							CommandParameter="{Binding (ut:ContextMenuTrackBehavior.OpenLocation), RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/>
+                        <MenuItem Header="New Conditional" Command="{x:Static l:Command.DropIf}"
+							CommandParameter="{Binding (ut:ContextMenuTrackBehavior.OpenLocation), RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/>
+                        <MenuItem Header="New Loop" Command="{x:Static l:Command.DropLoop}"
+							CommandParameter="{Binding (ut:ContextMenuTrackBehavior.OpenLocation), RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}}"/>
+                    </ContextMenu>
+                </dd:DesignerCanvas.ContextMenu>
+            </dd:DesignerCanvas>
+        </ScrollViewer>
+    </Grid>
+</Window>

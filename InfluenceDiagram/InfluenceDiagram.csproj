@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B2500D3-CF70-4701-B9E1-23101FB235D1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InfluenceDiagram</RootNamespace>
+    <AssemblyName>REvan</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app-icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Data">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Graphviz">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Graphviz.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Serialization">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="ShaderEffectLibrary">
+      <HintPath>..\ShaderEffectLibrary\bin\Release\ShaderEffectLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ComponentControl\BorderDecorator.cs" />
+    <Compile Include="ComponentControl\ComponentShapeContainer.xaml.cs">
+      <DependentUpon>ComponentShapeContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentControl\ComponentShapeEditor.xaml.cs">
+      <DependentUpon>ComponentShapeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentControl\ControlConnector.cs" />
+    <Compile Include="ComponentControl\ExpressionTextBox.cs" />
+    <Compile Include="ComponentControl\IComponentControl.cs" />
+    <Compile Include="ComponentControl\IConnectable.cs" />
+    <Compile Include="ComponentControl\IfComponentControl.xaml.cs">
+      <DependentUpon>IfComponentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentControl\LabelTextBox.cs" />
+    <Compile Include="ComponentControl\LoopComponentControl.xaml.cs">
+      <DependentUpon>LoopComponentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentControl\MacroComponentControl.xaml.cs">
+      <DependentUpon>MacroComponentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentControl\ShapeComponentControl.xaml.cs">
+      <DependentUpon>ShapeComponentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ComponentShape.cs" />
+    <Compile Include="Data\DataHelper.cs" />
+    <Compile Include="Data\ExcelExporter.cs" />
+    <Compile Include="Data\Exceptions.cs" />
+    <Compile Include="Data\SimulatedAnnealing.cs" />
+    <Compile Include="Data\IfComponentData.cs" />
+    <Compile Include="Data\LoopComponentData.cs" />
+    <Compile Include="Data\WorksheetSerializer.cs" />
+    <Compile Include="FunctionList.xaml.cs">
+      <DependentUpon>FunctionList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IncludeExternal.xaml.cs">
+      <DependentUpon>IncludeExternal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UndoManager.cs" />
+    <Compile Include="Utility\ContextMenuTrackBehavior.cs" />
+    <Compile Include="Utility\DataGridHelper.cs" />
+    <Compile Include="Utility\EnumerationExtension.cs" />
+    <Compile Include="Utility\FlowDocumentExtensions.cs" />
+    <Compile Include="Utility\InverseBooleanConverter.cs" />
+    <Compile Include="Utility\ObservableCollectionExtended.cs" />
+    <Compile Include="Utility\PropertyChangedExtended.cs" />
+    <Compile Include="Utility\SerializationHelper.cs" />
+    <Compile Include="Utility\TextBoxMasking.cs" />
+    <Compile Include="Utility\TextBoxReadOnlyWithCursor.cs" />
+    <Compile Include="Utility\UIHelper.cs" />
+    <Compile Include="WindowBusy.xaml.cs">
+      <DependentUpon>WindowBusy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowAbout.xaml.cs">
+      <DependentUpon>WindowAbout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowDatatable.xaml.cs">
+      <DependentUpon>WindowDatatable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowGoalseek.xaml.cs">
+      <DependentUpon>WindowGoalseek.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowTips.xaml.cs">
+      <DependentUpon>WindowTips.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ComponentControl\ComponentShapeContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\ComponentShapeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\ExpressionComponentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\IfComponentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\LoopComponentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\MacroComponentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\ShapeComponentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\SpreadsheetComponentCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComponentControl\SpreadsheetComponentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\ApplicationToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Connection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\DesignerItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Stencils\FlowChartStencils.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Stencils\ShapeStencils.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Styles\Expander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Styles\GroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Styles\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Styles\Shared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Styles\ToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\Toolbox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiagramDesigner\Resources\ToolboxItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FunctionList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IncludeExternal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command.cs" />
+    <Compile Include="ComponentControl\ExpressionComponentControl.xaml.cs">
+      <DependentUpon>ExpressionComponentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentControl\IComponentVariableReceiver.cs" />
+    <Compile Include="ComponentControl\IComponentVariableSource.cs" />
+    <Compile Include="ComponentControl\SpreadsheetColumn.cs" />
+    <Compile Include="ComponentControl\SpreadsheetComponentCell.xaml.cs">
+      <DependentUpon>SpreadsheetComponentCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComponentControl\SpreadsheetComponentControl.xaml.cs">
+      <DependentUpon>SpreadsheetComponentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AbstractComponentData.cs" />
+    <Compile Include="Data\ExpressionComponentData.cs" />
+    <Compile Include="Data\IComponentValueStore.cs" />
+    <Compile Include="Data\MacroComponentData.cs" />
+    <Compile Include="Data\ShapeComponentData.cs" />
+    <Compile Include="Data\SpreadsheetComponentData.cs" />
+    <Compile Include="Data\VariableNameGenerator.cs" />
+    <Compile Include="Data\WorksheetData.cs" />
+    <Compile Include="Delegates.cs" />
+    <Compile Include="DiagramDesigner\Connection.cs" />
+    <Compile Include="DiagramDesigner\ConnectionAdorner.cs" />
+    <Compile Include="DiagramDesigner\Connector.cs" />
+    <Compile Include="DiagramDesigner\ConnectorAdorner.cs" />
+    <Compile Include="DiagramDesigner\Controls\DragThumb.cs" />
+    <Compile Include="DiagramDesigner\Controls\RelativePositionPanel.cs" />
+    <Compile Include="DiagramDesigner\Controls\ResizeThumb.cs" />
+    <Compile Include="DiagramDesigner\DesignerCanvas.Commands.cs" />
+    <Compile Include="DiagramDesigner\DesignerCanvas.cs" />
+    <Compile Include="DiagramDesigner\DesignerItem.cs" />
+    <Compile Include="DiagramDesigner\IGroupable.cs" />
+    <Compile Include="DiagramDesigner\ISelectable.cs" />
+    <Compile Include="DiagramDesigner\PathFinder.cs" />
+    <Compile Include="DiagramDesigner\RubberbandAdorner.cs" />
+    <Compile Include="DiagramDesigner\SelectionService.cs" />
+    <Compile Include="DiagramDesigner\Toolbox.cs" />
+    <Compile Include="DiagramDesigner\ToolboxItem.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="WindowBusy.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowAbout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowDatatable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowGoalseek.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowTips.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Resources\REvan Influence Diagram User Manual.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DiagramDesigner\Resources\Images\AlignObjectsBottom.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\AlignObjectsCenteredHorizontal.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\AlignObjectsCenteredVertical.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\AlignObjectsLeft.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\AlignObjectsRight.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\AlignObjectsTop.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\BringForward.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\BringToFront.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Copy.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Cut.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Delete.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\DistributeObjectsHorizontal.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\DistributeObjectsVertical.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\GenericDocument.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Group.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\OpenFolder.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Paste.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\PasteBig.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Print.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Save.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\SendBackward.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\SendToBack.png" />
+    <Resource Include="DiagramDesigner\Resources\Images\Ungroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\function-list.png" />
+    <Resource Include="Resources\Images\new.png" />
+    <Resource Include="Resources\Images\open.png" />
+    <Resource Include="Resources\Images\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\macro-delete-param-bw.png" />
+    <Resource Include="Resources\Images\macro-add-param-bw.png" />
+    <Resource Include="Resources\Images\spreadsheet-add-row-bw.png" />
+    <Resource Include="Resources\Images\spreadsheet-add-column-bw.png" />
+    <Resource Include="Resources\Images\shape-hexagon.png" />
+    <Resource Include="Resources\Images\shape-octagon.png" />
+    <Resource Include="Resources\Images\shape-rect.png" />
+    <Resource Include="Resources\Images\shape-rectrounded1.png" />
+    <Resource Include="Resources\Images\shape-rectrounded2.png" />
+    <Resource Include="Resources\Images\data-tools.png" />
+    <Resource Include="Resources\Images\logo-long-small.png" />
+    <Resource Include="app-icon.ico" />
+    <Content Include="Lib\Antlr3.Runtime.dll" />
+    <Content Include="Lib\NCalc.dll" />
+    <Resource Include="Resources\Images\loop-add-param.png" />
+    <Resource Include="Resources\Images\loop-delete-param.png" />
+    <Resource Include="Resources\Images\macro-add-param.png" />
+    <Resource Include="Resources\Images\macro-delete-param.png" />
+    <Resource Include="Resources\Images\spreadsheet-add-column.png" />
+    <Resource Include="Resources\Images\spreadsheet-add-row.png" />
+    <Resource Include="Resources\Images\sidebar-01-variable.png" />
+    <Resource Include="Resources\Images\sidebar-02-spreadsheet.png" />
+    <Resource Include="Resources\Images\sidebar-03-macro.png" />
+    <Resource Include="Resources\Images\sidebar-04-flowchart.png" />
+    <Resource Include="Resources\Images\sidebar-05-condition.png" />
+    <Resource Include="Resources\Images\sidebar-06-loop.png" />
+    <Resource Include="Resources\Images\01-new.png" />
+    <Resource Include="Resources\Images\02-open.png" />
+    <Resource Include="Resources\Images\03-save.png" />
+    <Resource Include="Resources\Images\04-save-as.png" />
+    <Resource Include="Resources\Images\05-cut.png" />
+    <Resource Include="Resources\Images\06-copy.png" />
+    <Resource Include="Resources\Images\07-paste.png" />
+    <Resource Include="Resources\Images\08-undo.png" />
+    <Resource Include="Resources\Images\09-redo.png" />
+    <Resource Include="Resources\Images\10-include.png" />
+    <Resource Include="Resources\Images\11-delete.png" />
+    <Resource Include="Resources\Images\loop.png" />
+    <Resource Include="Resources\Images\save_as.png" />
+    <Resource Include="Resources\Images\macro.png" />
+    <Resource Include="Resources\Images\paste.png" />
+    <Resource Include="Resources\Images\copy.png" />
+    <Resource Include="Resources\Images\cut.png" />
+    <Resource Include="Resources\Images\delete.png" />
+    <Resource Include="Resources\Images\spreadsheet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Evaluant.Calculator\NCalc.csproj">
+      <Project>{5f014003-50d8-49e0-8afe-91d38dccc97c}</Project>
+      <Name>NCalc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

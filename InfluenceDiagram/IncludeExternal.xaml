@@ -1,0 +1,21 @@
+﻿<Window x:Class="InfluenceDiagram.IncludeExternal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:l="clr-namespace:InfluenceDiagram"
+        Title="Include External Worksheet" Height="200" Width="300"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded"
+        Icon="app-icon.ico">
+    <Window.CommandBindings>
+        <CommandBinding Command="l:Command.Add" Executed="Add_Executed"></CommandBinding>
+        <CommandBinding Command="ApplicationCommands.Delete" Executed="Remove_Executed" CanExecute="Remove_CanExecute"></CommandBinding>
+    </Window.CommandBindings>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="40">
+            <Button Margin="5" Padding="5" Width="80" Command="l:Command.Add">Add</Button>
+            <Button Margin="5" Padding="5" Width="80" Command="ApplicationCommands.Delete">Remove</Button>
+        </StackPanel>
+        <ListBox Name="listBox">
+        </ListBox>
+    </DockPanel>
+</Window>
